@@ -14,7 +14,7 @@ export const SnippetForm = ({
 
         const data: SnippetCreate = {
             title: formData.get("title") as string,
-            description: formData.get("description") as string,
+            content: formData.get("content") as string,
             tags: (formData.get("tags") as string).split(","),
             type: formData.get("type") as SnippetCreate["type"]
         }
@@ -35,10 +35,10 @@ export const SnippetForm = ({
                     defaultValue={defaultValues.title}
                 />
                 <textarea 
-                    placeholder="Description" 
-                    name="description" 
+                    placeholder="Content" 
+                    name="content" 
                     className="border-1 px-[5px] py-[5px]"
-                    defaultValue={defaultValues.description}
+                    defaultValue={defaultValues.content}
                 />
                 <TagPicker
                     initialValue={defaultValues.tags}

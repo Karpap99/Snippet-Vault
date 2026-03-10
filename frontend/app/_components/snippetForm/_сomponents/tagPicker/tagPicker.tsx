@@ -2,10 +2,13 @@
 
 import { useState } from "react";
 import { Props } from "./types";
+import Image from "next/image";
+import Close from "@/assets/images/close.svg"
 
 export const TagPicker = ({ initialValue }: Props) => {
   const [tag, setTag] = useState<string>("");
   const [tags, setTags] = useState<string[]>(initialValue || []);
+
 
   const handleTagAdd = () => {
     const trimmed = tag.trim()
@@ -38,13 +41,13 @@ export const TagPicker = ({ initialValue }: Props) => {
           Add
         </button>
       </div>
-      <div>
+      <div className="flex">
         {tags.map((value) => (
-          <div key={value}>
+          <div key={value} className="flex items-center p-[2px] border-1 rounded-[4px]">
             {value}
-            <button type="button" onClick={() => handleTagDelete(value)}>
-              del
-            </button>
+            <div onClick={() => handleTagDelete(value)}>
+              <Image height={24} width={24} src={Close} alt=""/>
+            </div>
           </div>
         ))}
       </div>

@@ -1,37 +1,99 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateSnippetDto } from './dto/create-snippet.dto';
 import { UpdateSnippetDto } from './dto/update-snippet.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Snippet, SnippetDocument } from 'src/schemas/snippet.schema';
-import { DeleteResult, Model, UpdateResult } from 'mongoose';
+import { Model } from 'mongoose';
+import { SearchSnippetDto } from './dto/search-snippet.dto';
+
+type Response = {
+  snippet: SnippetDocument | SnippetDocument[];
+};
+
+type PaginatedResponse = Response & {
+  page: number;
+  totalPages: number;
+  total: number;
+};
 
 @Injectable()
 export class SnippetService {
   constructor(
-    @InjectModel(Snippet.name) private SnippetModel: Model<Snippet>,
+    @InjectModel(Snippet.name) private snippetModel: Model<SnippetDocument>,
   ) {}
 
-  create(createSnippetDto: CreateSnippetDto): Promise<Snippet> {
-    const snippet = new this.SnippetModel(createSnippetDto);
-    return snippet.save();
+  async create(createSnippetDto: CreateSnippetDto): Promise<Response> {
+    const snippet = new this.snippetModel(createSnippetDto);
+    const result = await snippet.save();
+    return {
+      snippet: result,
+    };
   }
 
-  findAll(): Promise<Snippet[]> {
-    return this.SnippetModel.find().exec();
+  async findOne(id: string): Promise<Response> {
+    const snippet = await this.snippetModel.findById(id).exec();
+
+    if (!snippet) {
+      throw new NotFoundException('Snippet not found');
+    }
+
+    return { snippet };
   }
 
-  findOne(id: string): Promise<SnippetDocument | null> {
-    return this.SnippetModel.findOne({ _id: id }).exec();
+  async findAll(
+    searchSnippetDto: SearchSnippetDto,
+  ): Promise<PaginatedResponse> {
+    const { q, tag, page = 1, limit = 10 } = searchSnippetDto;
+
+    const filter: any = {};
+
+    if (q) {
+      filter.$text = { $search: q };
+    }
+
+    if (tag) {
+      filter.$tag = tag;
+    }
+
+    const skip = (page - 1) * limit;
+
+    const [snippets, total] = await Promise.all([
+      this.snippetModel.find(filter).skip(skip).limit(limit).exec(),
+      this.snippetModel.countDocuments(filter),
+    ]);
+
+    return {
+      snippet: snippets,
+      page: page,
+      totalPages: Math.ceil(total / limit),
+      total: total,
+    };
   }
 
-  update(
+  async update(
     id: string,
     updateSnippetDto: UpdateSnippetDto,
-  ): Promise<UpdateResult> {
-    return this.SnippetModel.updateOne({ _id: id }, updateSnippetDto).exec();
+  ): Promise<Response> {
+    const snippet = await this.snippetModel
+      .findByIdAndUpdate(id, updateSnippetDto, { new: true })
+      .exec();
+
+    if (!snippet) {
+      throw new NotFoundException('Snippet with that id doesnt exist');
+    }
+
+    return {
+      snippet: snippet,
+    };
   }
 
-  remove(id: string): Promise<DeleteResult> {
-    return this.SnippetModel.deleteOne({ _id: id }).exec();
+  async remove(id: string): Promise<Response> {
+    const snippet = await this.snippetModel.findByIdAndDelete(id).exec();
+
+    if (!snippet) {
+      throw new NotFoundException('Snippet not found');
+    }
+
+    return { snippet: snippet };
   }
 }

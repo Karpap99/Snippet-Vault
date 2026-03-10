@@ -1,19 +1,27 @@
-import { useState } from "react"
+"use client"
 
+import { ChangeEvent } from "react"
 
-export const SearchBar = () => {
-    const [value, setValue] = useState<string>('')
+type Props = {
+  value: string
+  onChange: (value: string) => void
+}
 
+export const SearchBar = ({ value, onChange }: Props) => {
 
-    return(
-        <div className="relative">
-            <input 
-                type="text" 
-                placeholder="Search for title, description, tags"
-                className="border-1 py-1 px-2
-                          w-[400px]"
-                />
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value)
+  }
 
-        </div>
-    )
+  return (
+    <div className="relative">
+      <input
+        type="text"
+        placeholder="Search for title, description, tags"
+        className="border-1 py-1 px-2 w-[400px]"
+        value={value}
+        onChange={handleChange}
+      />
+    </div>
+  )
 }

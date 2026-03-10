@@ -1,24 +1,27 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { SnippetType } from 'src/enums/enums';
 
 export type SnippetDocument = HydratedDocument<Snippet>;
 
 @Schema({ timestamps: true })
 export class Snippet {
-  @Prop({ required: true })
+  @Prop({ required: true, index: true })
   title!: string;
 
-  @Prop()
-  description?: string;
+  @Prop({ required: true })
+  content!: string;
 
   @Prop({ type: [String], default: [] })
-  tags?: string[];
+  tags!: string[];
 
-  @Prop({ enum: ['link', 'note', 'command'], required: true })
-  type!: 'link' | 'note' | 'command';
+  @Prop({ enum: SnippetType, required: true })
+  type!: SnippetType;
 }
 
 export const SnippetSchema = SchemaFactory.createForClass(Snippet);
+
+SnippetSchema.index({
+  title: 'text',
+  content: 'text',
+});

@@ -1,18 +1,12 @@
 import { IsString, IsOptional, IsArray, IsEnum } from 'class-validator';
-
-export enum SnippetType {
-  LINK = 'link',
-  NOTE = 'note',
-  COMMAND = 'command',
-}
+import { SnippetType } from 'src/enums/enums';
 
 export class CreateSnippetDto {
   @IsString()
   title!: string;
 
-  @IsOptional()
   @IsString()
-  description?: string;
+  content!: string;
 
   @IsOptional()
   @IsArray()

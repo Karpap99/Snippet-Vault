@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { SnippetService } from './snippet.service';
 import { CreateSnippetDto } from './dto/create-snippet.dto';
 import { UpdateSnippetDto } from './dto/update-snippet.dto';
+import { SearchSnippetDto } from './dto/search-snippet.dto';
 
 @Controller('snippet')
 export class SnippetController {
@@ -21,8 +23,8 @@ export class SnippetController {
   }
 
   @Get()
-  findAll() {
-    return this.snippetService.findAll();
+  findAll(@Query() searchSnippetDto: SearchSnippetDto) {
+    return this.snippetService.findAll(searchSnippetDto);
   }
 
   @Get(':id')

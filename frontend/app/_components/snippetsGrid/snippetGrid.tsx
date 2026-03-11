@@ -1,7 +1,7 @@
 "use client";
 
 import { PublicApi } from "@/app/_hooks/api";
-import { SnippetGet, Response } from "@/app/types";
+import { SnippetGet, ResponseMany } from "@/app/types";
 import { useState, useEffect, useCallback } from "react";
 import { CreateSnippet } from "../createSnippet/createSnippet";
 import { SearchBar } from "../searchBar/searchBar";
@@ -63,7 +63,7 @@ export const SnippetGrid = () => {
       if (isLoading) return;
       setIsLoading(true);
       try {
-        const res: AxiosResponse<Response> = await PublicApi.get<Response>(
+        const res: AxiosResponse<ResponseMany> = await PublicApi.get<Response>(
           "/snippet",
           {
             params: {

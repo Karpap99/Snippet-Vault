@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { SnippetCreate, SnippetGet, Response } from "../types";
+import { SnippetCreate, SnippetGet, ResponseSignle } from "../types";
 import { PublicApi } from "../_hooks/api";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -11,7 +11,7 @@ import Delete from "@/assets/images/delete.svg";
 import Edit from "@/assets/images/edit.svg";
 import { Modal } from "../_components/modal/modal";
 import { SnippetForm } from "../_components/snippetForm/snippetForm";
-import { useRouter, RedirectType } from "next/navigation";
+import { useRouter} from "next/navigation";
 
 export default function Page() {
   const [snippet, setSnippet] = useState<SnippetGet>();
@@ -22,7 +22,7 @@ export default function Page() {
 
   useEffect(() => {
     const load = async () => {
-      const result: AxiosResponse<Response> = await PublicApi.get(
+      const result: AxiosResponse<ResponseSignle> = await PublicApi.get(
         `/snippet${pathname}`,
       );
 

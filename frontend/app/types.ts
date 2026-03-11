@@ -10,10 +10,16 @@ export type SnippetGet = {
     updatedAt: Date
 }
 
-export type Response = {
+export type ResponseSignle = {
     totalPages: number,
     page: number,
-    snippet: SnippetGet | SnippetGet[]
+    snippet: SnippetGet
+}
+
+export type ResponseMany = {
+    totalPages: number,
+    page: number,
+    snippet: SnippetGet[]
 }
 
 

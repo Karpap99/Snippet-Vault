@@ -1,8 +1,8 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSnippetDto } from './dto/create-snippet.dto';
 import { UpdateSnippetDto } from './dto/update-snippet.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Snippet, SnippetDocument } from 'src/schemas/snippet.schema';
+import { Snippet, SnippetDocument } from '../schemas/snippet.schema';
 import { Model } from 'mongoose';
 import { SearchSnippetDto } from './dto/search-snippet.dto';
 

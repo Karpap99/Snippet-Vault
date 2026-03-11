@@ -63,7 +63,7 @@ export const SnippetGrid = () => {
       if (isLoading) return;
       setIsLoading(true);
       try {
-        const res: AxiosResponse<ResponseMany> = await PublicApi.get<Response>(
+        const res: AxiosResponse<ResponseMany> = await PublicApi.get<ResponseMany>(
           "/snippet",
           {
             params: {

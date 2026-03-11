@@ -147,9 +147,9 @@ export const SnippetGrid = () => {
       <div className="flex justify-center w-full">
         <div className={`grid grid-cols-3 justify-center gap-2 max-w-[1024px]`}>
           {isLoading ? (
-            <p>Is loading</p>
+            <p className="col-span-2 row-span-2">Is loading</p>
           ) : Error.length > 0 ? (
-            <p>Error: {Error} </p>
+            <p className="col-span-2 row-span-2">Error: {Error} </p>
           ) : snippets.length > 0 ? (
             snippetsSorted.map((snippet) => (
               <MemoedSnippet
@@ -159,7 +159,7 @@ export const SnippetGrid = () => {
               />
             ))
           ) : (
-            <p>No result</p>
+            <p className="col-span-2 row-span-2">No result</p>
           )}
         </div>
       </div>

@@ -62,14 +62,14 @@ DELETE /snippets?id=eeqfwfqfs213sfa
 ## Build
 
 
-Backend
+### Backend
 
 npm run build
 
 npm run start:prod
 
 
-Frontend
+### Frontend
 
 npm run build
 

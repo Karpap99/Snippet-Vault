@@ -11,13 +11,17 @@ Next.js + NestJS + MongoDB + TypeScript
 ### Backend
 
 cd backend
+
 npm install
+
 npm run start:dev
 
 ### Frontend
 
 cd frontend
+
 npm install
+
 npm run dev
 
 ---
@@ -29,6 +33,7 @@ backend/.env
 DATABASE_CONNECTION_STRING
 
 frontend/.env
+
 NEXT_PUBLIC_API
 
 ---
@@ -56,12 +61,16 @@ DELETE /snippets?id=eeqfwfqfs213sfa
 
 ## Build
 
+
 Backend
 
 npm run build
+
 npm run start:prod
+
 
 Frontend
 
 npm run build
+
 npm start

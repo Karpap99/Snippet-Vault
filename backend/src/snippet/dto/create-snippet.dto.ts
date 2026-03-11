@@ -1,5 +1,5 @@
 import { IsString, IsOptional, IsArray, IsEnum } from 'class-validator';
-import { SnippetType } from 'src/enums/enums';
+import { SnippetType } from '../../enums/enums';
 
 export class CreateSnippetDto {
   @IsString()

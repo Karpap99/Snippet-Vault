@@ -52,7 +52,7 @@ export class SnippetService {
     }
 
     if (tag) {
-      filter.$tag = tag;
+      filter.tags = tag;
     }
 
     const skip = (page - 1) * limit;
